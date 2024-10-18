@@ -37,3 +37,11 @@ export interface UsersResponse {
     message: string;
     users?: User[];
 }
+export interface UserRequest {
+    username: string;
+    email: string;
+    password: string;
+    name: string;
+    lastname: string;
+    phone: string;
+}

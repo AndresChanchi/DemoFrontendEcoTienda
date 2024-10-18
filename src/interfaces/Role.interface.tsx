@@ -6,3 +6,8 @@ export interface RoleResponse {
     createdate: string;
     updateddate: string;
 }
+export interface RoleRequest{
+    name: string;
+    description: string;
+    status: string;
+}
