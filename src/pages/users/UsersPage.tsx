@@ -5,6 +5,8 @@ import { Table, Form, Button, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { User } from '../../interfaces/User.interface';
 import './UsersPage.css'; // Importa el archivo CSS para estilos personalizados
+import { RoleResponse } from '../../interfaces/Role.interface';
+
 
 const UsersPage = () => {
     const [users, setUsers] = useState<User[]>([]);
@@ -14,6 +16,7 @@ const UsersPage = () => {
     const [currentUser, setCurrentUser] = useState<User | null>(null);
     const [userToDelete, setUserToDelete] = useState<string | null>(null);
     const [formValues, setFormValues] = useState({ username: '', email: '', name: '', lastname: '', phone: '', password: '' });
+    const [userRole, setUserRole] = useState<RoleResponse[]>([]);
     const cookies = new Cookies();
 
     useEffect(() => {
@@ -22,8 +25,10 @@ const UsersPage = () => {
 
     const getUsers = async () => {
         const token = cookies.get('token');
+        const role = cookies.get('user');
         const users = await getAllUsers(token);
         setUsers(users);
+        setUserRole(role.roles);
     };
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -127,7 +132,7 @@ const UsersPage = () => {
                             <td>{user.details.phone}</td>
                             <td>
                                 <Button variant="warning" onClick={() => handleShowModal(user)}>Edit</Button>{' '}
-                                <Button variant="danger" onClick={() => handleShowConfirmModal(user.id)}>Delete</Button>
+                                {userRole.some(role => role.name === 'SUPER_ADMIN') && (<Button variant="danger" onClick={() => handleShowConfirmModal(user.id)}>Delete</Button>)}
                             </td>
                         </tr>
                     ))}

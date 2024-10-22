@@ -47,12 +47,10 @@ const WalletPage = () => {
     }
 
     return (
-        <Container className='mt-4'>
+        <Container className='mt-5'>
             {loading && <LoadingComponent />}
             <div className='wallet-title text-center mb-4'>
                 <h1>Wallet</h1>
-                <Button variant='primary' className='mt-3' onClick={handleReward}>Reward</Button>
-                
             </div>
 
             <Row className='justify-content-center'>

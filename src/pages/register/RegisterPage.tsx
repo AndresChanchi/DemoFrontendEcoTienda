@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
-import { Container } from 'react-bootstrap';
-import Card from 'react-bootstrap/Card';
+import { Container, Row, Col, Form, Button, Card, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Register } from '../../fetch/Auth';
 import { distributeReward } from '../../services/RewardService';
@@ -22,6 +21,8 @@ interface RegisterFormValues {
 const RegisterPage = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertVariant, setAlertVariant] = useState<'success' | 'danger'>('success');
 
     const onSubmit = async (values: RegisterFormValues, { setSubmitting, setErrors }: FormikHelpers<RegisterFormValues>) => {
         setLoading(true);
@@ -43,6 +44,8 @@ const RegisterPage = () => {
         } catch (error) {
             console.error('Error login', error);
             setErrors({ email: 'Error en el servidor. Inténtalo de nuevo más tarde.' });
+            setAlertMessage('Error en el servidor. Inténtalo de nuevo más tarde.');
+            setAlertVariant('danger');
         } finally {
             setLoading(false);
             setSubmitting(false);
@@ -53,9 +56,11 @@ const RegisterPage = () => {
         try {
             console.log('paso la transaccion', address);
             const txHash = await distributeReward(address, 35);
-            alert(`Recompensa distribuida con éxito. Hash de la transacción: ${txHash}`);
+            setAlertMessage(`Recompensa distribuida con éxito. Hash de la transacción: ${txHash}`);
+            setAlertVariant('success');
         } catch (error) {
-            alert(`Error al distribuir la recompensa: ${error.message}`);
+            setAlertMessage(`Error al distribuir la recompensa: ${error.message}`);
+            setAlertVariant('danger');
         }
     };
 
@@ -78,134 +83,149 @@ const RegisterPage = () => {
                             <div className="col-12 col-md-8 col-lg-6 col-xl-5">
                                 <Card className="bg-dark text-white">
                                     <Card.Body className="p-5 text-center">
+                                        {alertMessage && (
+                                            <Alert variant={alertVariant} onClose={() => setAlertMessage('')} dismissible>
+                                                {alertMessage}
+                                            </Alert>
+                                        )}
                                         <Formik
                                             initialValues={{ username: '', name: '', lastname: '', email: '', password: '', phone: '' }}
                                             onSubmit={onSubmit}
                                             validationSchema={validationSchema}
                                         >
                                             {({ values, handleSubmit, handleChange, errors, touched, handleBlur, isSubmitting }) => (
-                                                <form onSubmit={handleSubmit}>
-                                                    <div className="mb-md-5 mt-md-4 pb-5">
-                                                        <h2 className="fw-bold mb-2 text-uppercase">Register</h2>
-                                                        <p className="text-white-50 mb-5">Please enter your data!</p>
-
-                                                        <div className="form-outline form-white mb-4">
-                                                            <input
-                                                                type="text"
-                                                                id="username"
-                                                                name="username"
-                                                                value={values.username}
-                                                                onChange={handleChange}
-                                                                onBlur={handleBlur}
-                                                                disabled={isSubmitting}
-                                                                className={`form-control form-control-lg ${touched.username && errors.username ? 'is-invalid' : ''}`}
-                                                            />
-                                                            <label className="form-label">Username</label>
-                                                            {touched.username && errors.username && (
-                                                                <div className="invalid-feedback">{errors.username}</div>
-                                                            )}
-                                                        </div>
-
-                                                        <div className="form-outline form-white mb-4">
-                                                            <input
-                                                                type="text"
-                                                                id="name"
-                                                                name="name"
-                                                                value={values.name}
-                                                                onChange={handleChange}
-                                                                onBlur={handleBlur}
-                                                                disabled={isSubmitting}
-                                                                className={`form-control form-control-lg ${touched.name && errors.name ? 'is-invalid' : ''}`}
-                                                            />
-                                                            <label className="form-label">Name</label>
-                                                            {touched.name && errors.name && (
-                                                                <div className="invalid-feedback">{errors.name}</div>
-                                                            )}
-                                                        </div>
-
-                                                        <div className="form-outline form-white mb-4">
-                                                            <input
-                                                                type="text"
-                                                                id="lastname"
-                                                                name="lastname"
-                                                                value={values.lastname}
-                                                                onChange={handleChange}
-                                                                onBlur={handleBlur}
-                                                                disabled={isSubmitting}
-                                                                className={`form-control form-control-lg ${touched.lastname && errors.lastname ? 'is-invalid' : ''}`}
-                                                            />
-                                                            <label className="form-label">Lastname</label>
-                                                            {touched.lastname && errors.lastname && (
-                                                                <div className="invalid-feedback">{errors.lastname}</div>
-                                                            )}
-                                                        </div>
-
-                                                        <div className="form-outline form-white mb-4">
-                                                            <input
-                                                                type="text"
-                                                                id="phone"
-                                                                name="phone"
-                                                                value={values.phone}
-                                                                onChange={handleChange}
-                                                                onBlur={handleBlur}
-                                                                disabled={isSubmitting}
-                                                                className={`form-control form-control-lg ${touched.phone && errors.phone ? 'is-invalid' : ''}`}
-                                                            />
-                                                            <label className="form-label">Phone</label>
-                                                            {touched.phone && errors.phone && (
-                                                                <div className="invalid-feedback">{errors.phone}</div>
-                                                            )}
-                                                        </div>
-
-                                                        <div className="form-outline form-white mb-4">
-                                                            <input
-                                                                type="email"
-                                                                id="email"
-                                                                name="email"
-                                                                value={values.email}
-                                                                onChange={handleChange}
-                                                                onBlur={handleBlur}
-                                                                disabled={isSubmitting}
-                                                                className={`form-control form-control-lg ${touched.email && errors.email ? 'is-invalid' : ''}`}
-                                                            />
-                                                            <label className="form-label">Email</label>
-                                                            {touched.email && errors.email && (
-                                                                <div className="invalid-feedback">{errors.email}</div>
-                                                            )}
-                                                        </div>
-
-                                                        <div className="form-outline form-white mb-4">
-                                                            <input
-                                                                type="password"
-                                                                id="password"
-                                                                name="password"
-                                                                value={values.password}
-                                                                onChange={handleChange}
-                                                                onBlur={handleBlur}
-                                                                disabled={isSubmitting}
-                                                                className={`form-control form-control-lg ${touched.password && errors.password ? 'is-invalid' : ''}`}
-                                                            />
-                                                            <label className="form-label">Password</label>
-                                                            {touched.password && errors.password && (
-                                                                <div className="invalid-feedback">{errors.password}</div>
-                                                            )}
-                                                        </div>
-
-                                                        <button
-                                                            type="submit"
-                                                            className="btn btn-outline-light btn-lg px-5"
-                                                            disabled={isSubmitting}
-                                                        >
-                                                            Register
-                                                        </button>
-
-                                                        <div className="d-flex justify-content-center text-center mt-4 pt-1">
-                                                            <a href="#!" className="text-white"><i className="fab fa-facebook-f fa-lg"></i></a>
-                                                            <a href="#!" className="text-white"><i className="fab fa-twitter fa-lg mx-4 px-2"></i></a>
-                                                            <a href="#!" className="text-white"><i className="fab fa-google fa-lg"></i></a>
-                                                        </div>
+                                                <Form onSubmit={handleSubmit}>
+                                                    <h2 className="fw-bold mb-2 text-uppercase">Register</h2>
+                                                    <p className="text-white-50 mb-5">Please enter your data!</p>
+                                                    <Row>
+                                                        <Col md={6}>
+                                                            <Form.Group className="mb-4">
+                                                                <Form.Label>Username</Form.Label>
+                                                                <Form.Control
+                                                                    type="text"
+                                                                    id="username"
+                                                                    name="username"
+                                                                    value={values.username}
+                                                                    onChange={handleChange}
+                                                                    onBlur={handleBlur}
+                                                                    disabled={isSubmitting}
+                                                                    isInvalid={touched.username && !!errors.username}
+                                                                />
+                                                                <Form.Control.Feedback type="invalid">
+                                                                    {errors.username}
+                                                                </Form.Control.Feedback>
+                                                            </Form.Group>
+                                                        </Col>
+                                                        <Col md={6}>
+                                                            <Form.Group className="mb-4">
+                                                                <Form.Label>Name</Form.Label>
+                                                                <Form.Control
+                                                                    type="text"
+                                                                    id="name"
+                                                                    name="name"
+                                                                    value={values.name}
+                                                                    onChange={handleChange}
+                                                                    onBlur={handleBlur}
+                                                                    disabled={isSubmitting}
+                                                                    isInvalid={touched.name && !!errors.name}
+                                                                />
+                                                                <Form.Control.Feedback type="invalid">
+                                                                    {errors.name}
+                                                                </Form.Control.Feedback>
+                                                            </Form.Group>
+                                                        </Col>
+                                                    </Row>
+                                                    <Row>
+                                                        <Col md={6}>
+                                                            <Form.Group className="mb-4">
+                                                                <Form.Label>Lastname</Form.Label>
+                                                                <Form.Control
+                                                                    type="text"
+                                                                    id="lastname"
+                                                                    name="lastname"
+                                                                    value={values.lastname}
+                                                                    onChange={handleChange}
+                                                                    onBlur={handleBlur}
+                                                                    disabled={isSubmitting}
+                                                                    isInvalid={touched.lastname && !!errors.lastname}
+                                                                />
+                                                                <Form.Control.Feedback type="invalid">
+                                                                    {errors.lastname}
+                                                                </Form.Control.Feedback>
+                                                            </Form.Group>
+                                                        </Col>
+                                                        <Col md={6}>
+                                                            <Form.Group className="mb-4">
+                                                                <Form.Label>Phone</Form.Label>
+                                                                <Form.Control
+                                                                    type="text"
+                                                                    id="phone"
+                                                                    name="phone"
+                                                                    value={values.phone}
+                                                                    onChange={handleChange}
+                                                                    onBlur={handleBlur}
+                                                                    disabled={isSubmitting}
+                                                                    isInvalid={touched.phone && !!errors.phone}
+                                                                />
+                                                                <Form.Control.Feedback type="invalid">
+                                                                    {errors.phone}
+                                                                </Form.Control.Feedback>
+                                                            </Form.Group>
+                                                        </Col>
+                                                    </Row>
+                                                    <Row>
+                                                        <Col md={6}>
+                                                            <Form.Group className="mb-4">
+                                                                <Form.Label>Email</Form.Label>
+                                                                <Form.Control
+                                                                    type="email"
+                                                                    id="email"
+                                                                    name="email"
+                                                                    value={values.email}
+                                                                    onChange={handleChange}
+                                                                    onBlur={handleBlur}
+                                                                    disabled={isSubmitting}
+                                                                    isInvalid={touched.email && !!errors.email}
+                                                                />
+                                                                <Form.Control.Feedback type="invalid">
+                                                                    {errors.email}
+                                                                </Form.Control.Feedback>
+                                                            </Form.Group>
+                                                        </Col>
+                                                        <Col md={6}>
+                                                            <Form.Group className="mb-4">
+                                                                <Form.Label>Password</Form.Label>
+                                                                <Form.Control
+                                                                    type="password"
+                                                                    id="password"
+                                                                    name="password"
+                                                                    value={values.password}
+                                                                    onChange={handleChange}
+                                                                    onBlur={handleBlur}
+                                                                    disabled={isSubmitting}
+                                                                    isInvalid={touched.password && !!errors.password}
+                                                                />
+                                                                <Form.Control.Feedback type="invalid">
+                                                                    {errors.password}
+                                                                </Form.Control.Feedback>
+                                                            </Form.Group>
+                                                        </Col>
+                                                    </Row>
+                                                    <Button
+                                                        type="submit"
+                                                        variant="outline-light"
+                                                        size="lg"
+                                                        className="px-5"
+                                                        disabled={isSubmitting}
+                                                    >
+                                                        Register
+                                                    </Button>
+                                                    <div className="d-flex justify-content-center text-center mt-4 pt-1">
+                                                        <a href="#!" className="text-white"><i className="fab fa-facebook-f fa-lg"></i></a>
+                                                        <a href="#!" className="text-white"><i className="fab fa-twitter fa-lg mx-4 px-2"></i></a>
+                                                        <a href="#!" className="text-white"><i className="fab fa-google fa-lg"></i></a>
                                                     </div>
-                                                </form>
+                                                </Form>
                                             )}
                                         </Formik>
                                     </Card.Body>

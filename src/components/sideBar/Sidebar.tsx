@@ -44,15 +44,18 @@ class SideNavBar extends React.Component {
                                 <Link to="wallet" className="nav-link">Wallet</Link>
                             </NavText>
                         </NavItem>
-                        <NavItem eventKey="airdrop">
-                            <NavIcon>
-                                <i className="fa fa-fw fa-line-chart" style={{ fontSize: "1.75em" }} />
-                            </NavIcon>
-                            <NavText>
-                                <Link to="airdrop" className="nav-link">Airdrop</Link>
-                            </NavText>
-                        </NavItem>
-
+                        {
+                            userRole.some(role => role.name === 'ADMIN' || role.name === 'SUPER_ADMIN') && (
+                                <NavItem eventKey="airdrop">
+                                    <NavIcon>
+                                        <i className="fa fa-fw fa-line-chart" style={{ fontSize: "1.75em" }} />
+                                    </NavIcon>
+                                    <NavText>
+                                        <Link to="airdrop" className="nav-link">Airdrop</Link>
+                                    </NavText>
+                                </NavItem>
+                            )
+                        }
                         <NavItem eventKey="nfts">
                             <NavIcon>
                                 <i className="fa fa-fw fa-image" style={{ fontSize: "1.75em" }} />
@@ -90,7 +93,7 @@ class SideNavBar extends React.Component {
                     </SideNav.Nav>
                 </SideNav>
                 <Container className="content-container">
-                    <Outlet />
+                    <Outlet userRoles={userRole} />
                 </Container>
             </div>
         );

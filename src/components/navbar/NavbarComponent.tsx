@@ -42,7 +42,10 @@ const NavbarComponent = () => {
       <Navbar.Brand as={Link} to="/">Airdrop</Navbar.Brand>
       
         {islogin ? (
+          <div>
+          
           <Nav className="ml-auto">
+            <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>
           <div className="d-flex align-items-center">
             <div className="text-white mr-3">{username}</div>
             <Button variant="outline-light" onClick={handleLogout}>
@@ -50,6 +53,7 @@ const NavbarComponent = () => {
             </Button>
           </div>
           </Nav>
+          </div>
         ) : (
           <Nav className="ml-auto">
             <Nav.Link as={Link} to="/login">Login</Nav.Link>
