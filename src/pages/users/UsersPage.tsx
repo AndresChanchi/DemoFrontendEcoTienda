@@ -13,7 +13,7 @@ const UsersPage = () => {
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [currentUser, setCurrentUser] = useState<User | null>(null);
     const [userToDelete, setUserToDelete] = useState<string | null>(null);
-    const [formValues, setFormValues] = useState({ username: '', email: '', name: '', lastname: '', phone: '' });
+    const [formValues, setFormValues] = useState({ username: '', email: '', name: '', lastname: '', phone: '', password: '' });
     const cookies = new Cookies();
 
     useEffect(() => {
@@ -32,7 +32,7 @@ const UsersPage = () => {
 
     const handleShowModal = (user: User | null = null) => {
         setCurrentUser(user);
-        setFormValues(user ? { username: user.username, email: user.email, name: user.details.name, lastname: user.details.lastname, phone: user.details.phone } : { username: '', email: '', name: '', lastname: '', phone: '' });
+        setFormValues(user ? { username: user.username, email: user.email, name: user.details.name, lastname: user.details.lastname, phone: user.details.phone, password: '' } : { username: '', email: '', name: '', lastname: '', phone: '', password: 'loquesea' });
         setShowModal(true);
     };
 
@@ -48,8 +48,18 @@ const UsersPage = () => {
 
     const handleSubmit = async () => {
         const token = cookies.get('token');
+        const userData = {
+            username: formValues.username,
+            email: formValues.email,
+            details: {
+                name: formValues.name,
+                lastname: formValues.lastname,
+                phone: formValues.phone
+            }
+        };
+
         if (currentUser) {
-            await updateUser(token, currentUser.id, formValues);
+            await updateUser(token, currentUser.id, userData);
         } else {
             await createUser(token, formValues);
         }

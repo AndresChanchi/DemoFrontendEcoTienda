@@ -45,3 +45,17 @@ export interface UserRequest {
     lastname: string;
     phone: string;
 }
+
+export interface UserDetails {
+    name: string;
+    lastname: string;
+    phone: string;
+}
+
+export interface UserData {
+    username: string;
+    email: string;
+    details: UserDetails;
+}
+
+

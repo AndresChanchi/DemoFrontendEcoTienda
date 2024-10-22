@@ -1,5 +1,5 @@
 
-import {UserRequest, UsersResponse} from '../interfaces/User.interface'
+import {UserData, UserRequest, UsersResponse} from '../interfaces/User.interface'
 const urlBase = import.meta.env.VITE_API_URL
 
 export const getAllUsers = async (token:string) : Promise<UsersResponse | null> => {
@@ -27,7 +27,8 @@ export const createUser = async (token:string, data: UserRequest) : Promise<User
         const response = await fetch(`${urlBase}/user`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(data)
         });
@@ -40,15 +41,16 @@ export const createUser = async (token:string, data: UserRequest) : Promise<User
    
 }
 
-export const updateUser = async (token:string) : Promise<UsersResponse | null> => {
+export const updateUser = async (token:string, userId: string, data: UserData) : Promise<UsersResponse | null> => {
     try{
-        console.log('paso por el servcio');
-        const response = await fetch(`${urlBase}/user`, {
-            method: 'GET',
+        console.log('paso por el servcio', data);
+        const response = await fetch(`${urlBase}/user/${userId}`, {
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
-            }
+            },
+            body: JSON.stringify(data)
         });
         const responseData:  UsersResponse = await response.json()
         return responseData;
@@ -59,11 +61,11 @@ export const updateUser = async (token:string) : Promise<UsersResponse | null> =
    
 }
 
-export const deleteUser = async (token:string) : Promise<UsersResponse | null> => {
+export const deleteUser = async (token:string, userId: string) : Promise<UsersResponse | null> => {
     try{
         console.log('paso por el servcio');
-        const response = await fetch(`${urlBase}/user`, {
-            method: 'GET',
+        const response = await fetch(`${urlBase}/user/${userId}`, {
+            method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
