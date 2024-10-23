@@ -79,3 +79,22 @@ export const deleteUser = async (token:string, userId: string) : Promise<UsersRe
     }
    
 }
+
+export const getUserId = async (token:string,  userId: string) : Promise<UsersResponse | null> => {
+    try{
+        console.log('paso por el servcio');
+        const response = await fetch(`${urlBase}/user/${userId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const responseData:  UsersResponse = await response.json()
+        return responseData;
+    }catch (error){
+        console.error('Error login', error);
+        return null;
+    }
+   
+}

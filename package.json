@@ -20,6 +20,7 @@
     "react-bootstrap": "^2.10.5",
     "react-dom": "^18.3.1",
     "react-loading-indicators": "^1.0.0",
+    "react-metamask-avatar": "^2.0.10",
     "react-router-dom": "6.4",
     "universal-cookie": "^7.2.0",
     "web3": "^4.13.0",

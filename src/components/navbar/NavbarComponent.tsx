@@ -1,11 +1,12 @@
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import { Link,  useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import { useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
+import { MetaMaskAvatar } from 'react-metamask-avatar';
 import { useAuthContext } from '../../context/AuthContext';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 
 const NavbarComponent = () => {
   const cookies = new Cookies();
@@ -14,6 +15,7 @@ const NavbarComponent = () => {
   const { logout } = useAuthContext();
   const [islogin, setIslogin] = useState(false);
   const [username, setUsername] = useState('');
+  const [address, setAddress] = useState('')
 
   useEffect(() => {
     setIslogin(login)
@@ -24,6 +26,7 @@ const NavbarComponent = () => {
     const user = cookies.get('user')
     console.log(user.username);
     setUsername(user.username);
+    setAddress(user.wallet.address);
   }
 
   const handleLogout = () => {
@@ -38,21 +41,24 @@ const NavbarComponent = () => {
 
   return (
     <Navbar bg="dark" variant="dark" fixed="top">
-    <Container>
-      <Navbar.Brand as={Link} to="/">Airdrop</Navbar.Brand>
-      
+      <Container>
+        <Navbar.Brand as={Link} to="/">Airdrop</Navbar.Brand>
+
         {islogin ? (
           <div>
-          
-          <Nav className="ml-auto">
-            <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>
-          <div className="d-flex align-items-center">
-            <div className="text-white mr-3">{username}</div>
-            <Button variant="outline-light" onClick={handleLogout}>
-              <i className="fas fa-sign-out-alt"></i> Salir
-            </Button>
-          </div>
-          </Nav>
+            <Nav className="ml-auto">
+              <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>
+
+              <NavDropdown title={username} id="basic-nav-dropdown">
+                <NavDropdown.Item as={Link} to="/dashboard/profile">Profile</NavDropdown.Item>
+
+                <NavDropdown.Divider />
+                <NavDropdown.Item onClick={handleLogout}>
+                  Logout
+                </NavDropdown.Item>
+              </NavDropdown>
+              <MetaMaskAvatar address={address} size={40} />
+            </Nav>
           </div>
         ) : (
           <Nav className="ml-auto">
@@ -60,9 +66,9 @@ const NavbarComponent = () => {
             <Nav.Link as={Link} to="/register">Registro</Nav.Link>
           </Nav>
         )}
-      
-    </Container>
-  </Navbar>
+
+      </Container>
+    </Navbar>
   )
 }
 
