@@ -1,7 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import Cookies from 'universal-cookie';
 
 const Dashboard = () => {
+  const cookies = new Cookies();
+  const [userId, setUserId] = useState('');
+
+  useEffect(() => {
+    getUsers();
+}, []);
+
+const getUsers = async () => {
+    const users = cookies.get('user');
+    setUserId(users.id);
+};
+
+
+  const handleGenerateLink = () => {
+    alert(`http://localhost:5173/register/reference/${userId}`)
+  };
+  
   return (
     <Container className="mt-5">
       <Row className="mb-4">
@@ -13,9 +31,9 @@ const Dashboard = () => {
         <Col md={4}>
           <Card className="mb-4">
             <Card.Body>
-              <Card.Title>Card Title 1</Card.Title>
+              <Card.Title>Airdrop</Card.Title>
               <Card.Text>
-                Some quick example text to build on the card title and make up the bulk of the card's content.
+              Recibe tokens gratis como parte de nuestro programa de airdrop.
               </Card.Text>
               <Button variant="primary">Go somewhere</Button>
             </Card.Body>
@@ -24,20 +42,20 @@ const Dashboard = () => {
         <Col md={4}>
           <Card className="mb-4">
             <Card.Body>
-              <Card.Title>Card Title 2</Card.Title>
+              <Card.Title>Bono de Referencia</Card.Title>
               <Card.Text>
-                Some quick example text to build on the card title and make up the bulk of the card's content.
+              Gana recompensas refiriendo amigos a nuestra plataforma.
               </Card.Text>
-              <Button variant="primary">Go somewhere</Button>
+              <Button variant="primary" onClick={handleGenerateLink}>Generar Link</Button>
             </Card.Body>
           </Card>
         </Col>
         <Col md={4}>
           <Card className="mb-4">
             <Card.Body>
-              <Card.Title>Card Title 3</Card.Title>
+              <Card.Title>Siembra</Card.Title>
               <Card.Text>
-                Some quick example text to build on the card title and make up the bulk of the card's content.
+              Airdrop por que el usuario participe en actividad de siembra de árboles?
               </Card.Text>
               <Button variant="primary">Go somewhere</Button>
             </Card.Body>

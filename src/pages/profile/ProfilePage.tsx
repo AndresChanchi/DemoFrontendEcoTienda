@@ -6,6 +6,7 @@ import { User } from '../../interfaces/User.interface';
 import { getUserId, updateUser } from '../../services/UsersService';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import { ForgotPassword } from '../../fetch/Auth';
 
 const ProfilePage = () => {
   const cookies = new Cookies();
@@ -18,7 +19,6 @@ const ProfilePage = () => {
     avatar: null
   });
   const [passwordValues, setPasswordValues] = useState({
-    currentPassword: '',
     newPassword: '',
     confirmPassword: ''
   });
@@ -80,14 +80,20 @@ const ProfilePage = () => {
     setAlertVariant('success');
   };
 
-  const handleChangePassword = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleChangePassword = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (passwordValues.newPassword !== passwordValues.confirmPassword) {
       setAlertMessage('New passwords do not match!');
       setAlertVariant('danger');
       return;
     }
+    const data = {
+      email: user?.email,
+      password: passwordValues.newPassword
+  };
     // Aquí puedes agregar la lógica para cambiar la contraseña en el servidor
+    const authentication = await ForgotPassword(data);
+    console.log(authentication);
     setAlertMessage('Password changed successfully!');
     setAlertVariant('success');
   };
@@ -184,17 +190,6 @@ const ProfilePage = () => {
               <h2 className="mb-4">Change Password</h2>
               <Form onSubmit={handleChangePassword}>
                 <Row>
-                  <Col md={6}>
-                    <Form.Group className="mb-4">
-                      <Form.Label>Current Password</Form.Label>
-                      <Form.Control
-                        type="password"
-                        name="currentPassword"
-                        value={passwordValues.currentPassword}
-                        onChange={handlePasswordChange}
-                      />
-                    </Form.Group>
-                  </Col>
                   <Col md={6}>
                     <Form.Group className="mb-4">
                       <Form.Label>New Password</Form.Label>

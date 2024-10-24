@@ -13,6 +13,7 @@ import NftsPages from "../pages/nfts/NftsPages";
 import UsersPage from "../pages/users/usersPage";
 import RolesPage from "../pages/roles/RolesPage";
 import ProfilePage from "../pages/profile/ProfilePage";
+import RegisterReferencePage from "../pages/reference/RegisterReferencePage";
 
 export const router = createBrowserRouter([
     {
@@ -35,6 +36,10 @@ export const router = createBrowserRouter([
             {
                 path: '/forgotPassword',
                 element: <ForgotPasswordPage />
+            },
+            {
+                path: '/register/reference/:userId',
+                element: <RegisterReferencePage />
             },
             {
                 path: "/dashboard",
