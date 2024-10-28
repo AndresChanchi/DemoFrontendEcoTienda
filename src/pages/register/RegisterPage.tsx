@@ -74,7 +74,7 @@ const RegisterPage = () => {
     });
 
     return (
-        <div className='card-container'>
+        <div className='card-container-register'>
             {loading && <LoadingComponent />}
             <Container>
                 <section className="vh-50">

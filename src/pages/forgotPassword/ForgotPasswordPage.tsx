@@ -40,7 +40,7 @@ const ForgotPasswordPage = () => {
     });
 
     return (
-        <div className='card-container'>
+        <div className='card-container-forgotpassword'>
             <Container>
                 <section className="vh-50">
                     <div className="container py-5 h-100">

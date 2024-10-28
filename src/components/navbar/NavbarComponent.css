@@ -1,0 +1,13 @@
+.navbar-custom {
+    z-index: 1100; /* Asegúrate de que el navbar esté por encima del sidebar */
+}
+
+.navbar-custom .navbar-brand {
+    margin-left: 0; /* Asegúrate de que el título esté totalmente a la izquierda */
+}
+
+@media (max-width: 768px) {
+    .navbar-custom {
+        margin-left: 0; /* Restablece el margen izquierdo en dispositivos móviles */
+    }
+}

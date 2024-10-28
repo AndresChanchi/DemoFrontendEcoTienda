@@ -1,7 +1,29 @@
-.card-container{
+.card-container-register{
     display: flex;
     justify-content: center;
-    padding-top: 10vw;
+    padding-top: 80px;
 }
 
+
+/* Estilos para pantallas pequeñas (móviles) */
+@media (max-width: 576px) {
+    .card-container-register {
+        padding-top: 40px;
+        flex-direction: column;
+    }
+}
+
+/* Estilos para pantallas medianas (tabletas) */
+@media (min-width: 577px) and (max-width: 768px) {
+    .card-container-register {
+        padding-top: 60px;
+    }
+}
+
+/* Estilos para pantallas grandes (escritorios) */
+@media (min-width: 769px) {
+    .card-container-register {
+        padding-top: 80px;
+    }
+}
 

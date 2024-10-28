@@ -54,10 +54,10 @@ const LoginPage = () => {
     })
 
     return (
-        <div className='card-container'>
+        <div className='card-container-login'>
             <Container>
-                <section className="vh-50 ">
-                    <div className="container py-5 h-100">
+                <section className="vh-40 ">
+                    <div className="container py-0 h-100">
                         <div className="row d-flex justify-content-center align-items-center h-100">
                             <div className="col-12 col-md-8 col-lg-6 col-xl-5">
                                 <div className="card bg-dark text-white" >
