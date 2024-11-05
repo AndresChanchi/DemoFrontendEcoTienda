@@ -116,3 +116,21 @@ export const getUserIdReference = async (userId: string) : Promise<UsersResponse
     }
    
 }
+
+export const setRoleUser = async (token:string, userId: string, roleId: string) : Promise<UsersResponse | null> => {
+    try{
+        const response = await fetch(`${urlBase}/user/setRole/${userId}/${roleId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const responseData:  UsersResponse = await response.json()
+        return responseData;
+    }catch (error){
+        console.error('Error login', error);
+        return null;
+    }
+   
+}

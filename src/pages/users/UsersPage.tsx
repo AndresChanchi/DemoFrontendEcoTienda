@@ -1,34 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import Cookies from 'universal-cookie';
-import { getAllUsers, createUser, updateUser, deleteUser } from '../../services/UsersService';
+import { getAllUsers, createUser, updateUser, deleteUser, setRoleUser } from '../../services/UsersService';
 import { Table, Form, Button, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { User } from '../../interfaces/User.interface';
 import './UsersPage.css'; // Importa el archivo CSS para estilos personalizados
 import { RoleResponse } from '../../interfaces/Role.interface';
-
+import { getAllRole } from '../../services/RolesService';
 
 const UsersPage = () => {
     const [users, setUsers] = useState<User[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [showRoleModal, setShowRoleModal] = useState(false);
     const [currentUser, setCurrentUser] = useState<User | null>(null);
     const [userToDelete, setUserToDelete] = useState<string | null>(null);
     const [formValues, setFormValues] = useState({ username: '', email: '', name: '', lastname: '', phone: '', password: '' });
-    const [userRole, setUserRole] = useState<RoleResponse[]>([]);
+    const [userRoles, setUserRoles] = useState<RoleResponse[]>([]);
+    const [selectedRole, setSelectedRole] = useState<string>('');
     const cookies = new Cookies();
 
     useEffect(() => {
         getUsers();
+        getRolesList();
     }, []);
 
     const getUsers = async () => {
         const token = cookies.get('token');
-        const role = cookies.get('user');
         const users = await getAllUsers(token);
         setUsers(users);
-        setUserRole(role.roles);
+    };
+
+    const getRolesList = async () => {
+        const token = cookies.get('token');
+        const roles = await getAllRole(token);
+        setUserRoles(Array.isArray(roles) ? roles : []);
     };
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,6 +98,30 @@ const UsersPage = () => {
         }
     };
 
+    const handleShowRoleModal = (user: User) => {
+        setCurrentUser(user);
+        setShowRoleModal(true);
+    };
+
+    const handleCloseRoleModal = () => {
+        setShowRoleModal(false);
+        setCurrentUser(null);
+        setSelectedRole('');
+    };
+
+    const handleRoleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedRole(event.target.value);
+    };
+
+    const handleAssignRole = async () => {
+        if (currentUser && selectedRole) {
+            const token = cookies.get('token');
+            await setRoleUser(token, currentUser.id, selectedRole);
+            getUsers();
+            handleCloseRoleModal();
+        }
+    };
+
     const filteredUsers = users.filter(user =>
         user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -119,6 +150,7 @@ const UsersPage = () => {
                         <th>Name</th>
                         <th>Lastname</th>
                         <th>Phone</th>
+                        <th>Role</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -130,9 +162,11 @@ const UsersPage = () => {
                             <td>{user.details.name}</td>
                             <td>{user.details.lastname}</td>
                             <td>{user.details.phone}</td>
+                            <td>{user.roles.map(role => role.name).join(', ')}</td>
                             <td>
                                 <Button variant="warning" onClick={() => handleShowModal(user)}>Edit</Button>{' '}
-                                {userRole.some(role => role.name === 'SUPER_ADMIN') && (<Button variant="danger" onClick={() => handleShowConfirmModal(user.id)}>Delete</Button>)}
+                                {Array.isArray(userRoles) && userRoles.some(role => role.name === 'SUPER_ADMIN') && (<Button variant="danger" onClick={() => handleShowConfirmModal(user.id)}>Delete</Button>)}
+                                {Array.isArray(userRoles) && userRoles.some(role => role.name === 'SUPER_ADMIN') && (<Button variant="primary" onClick={() => handleShowRoleModal(user)}>Assign Role</Button>)}
                             </td>
                         </tr>
                     ))}
@@ -208,6 +242,29 @@ const UsersPage = () => {
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseConfirmModal}>Cancel</Button>
                     <Button variant="danger" onClick={handleDelete}>Delete</Button>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal show={showRoleModal} onHide={handleCloseRoleModal} className="dark-modal">
+                <Modal.Header closeButton>
+                    <Modal.Title>Assign Role</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Form.Group controlId="formRole">
+                            <Form.Label>Select Role</Form.Label>
+                            <Form.Control as="select" value={selectedRole} onChange={handleRoleChange}>
+                                <option value="">Select a role</option>
+                                {Array.isArray(userRoles) && userRoles.map(role => (
+                                    <option key={role.id} value={role.id}>{role.name}</option>
+                                ))}
+                            </Form.Control>
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseRoleModal}>Close</Button>
+                    <Button variant="primary" onClick={handleAssignRole}>Assign Role</Button>
                 </Modal.Footer>
             </Modal>
         </div>
