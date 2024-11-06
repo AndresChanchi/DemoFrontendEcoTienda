@@ -130,7 +130,7 @@ const UsersPage = () => {
     );
 
     return (
-        <div className="users-page">
+        <div className="users-page pt-5">
             <h1>Users</h1>
             <Button variant="primary" onClick={() => handleShowModal()}>Add User</Button>
             <Form.Group controlId="search" className="mt-3">

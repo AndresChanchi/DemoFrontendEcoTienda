@@ -30,3 +30,38 @@
 button {
     font-size: 1rem;
 }
+
+.modal-content {
+    padding-top: 26px;
+}
+
+/* Estilos personalizados para el modo oscuro del modal */
+.dark-modal .modal-content {
+    background-color: #343a40;
+    color: white;
+}
+
+.dark-modal .modal-header,
+.dark-modal .modal-footer {
+    border-color: #454d55;
+}
+
+.dark-modal .form-control {
+    background-color: #454d55;
+    color: white;
+    border-color: #6c757d;
+}
+
+.dark-modal .form-control::placeholder {
+    color: #ced4da;
+}
+
+.dark-modal .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.dark-modal .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}

@@ -83,7 +83,7 @@ const RolesPage = () => {
   );
 
   return (
-    <div className="roles-page">
+    <div className="roles-page pt-5">
       <h1>Roles</h1>
       <Button variant="primary" onClick={() => handleShowModal()}>Add Role</Button>
       <Form.Group controlId="search" className="mt-3">

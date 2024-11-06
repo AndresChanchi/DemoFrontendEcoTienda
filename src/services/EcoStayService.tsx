@@ -67,3 +67,42 @@ export const distributeReward = async (address: string, amount:string) => {
         throw new Error('No se pudo registrar la transacción');
     }
 };
+
+export const getETHBalance = async (address: string) => {
+    try {
+        const balance = await provider.getBalance(address);
+        console.log('Balance ETH en wei:', balance);
+        const balanceInEth = web3.utils.fromWei(balance, 'ether');
+        console.log(`Balance of ${address}: ${balanceInEth} ETH`);
+        return balanceInEth;
+    } catch (error) {
+        console.error('Error al obtener el balance de ETH:', error);
+        throw new Error('No se pudo obtener el balance de ETH');
+    }
+};
+
+export const sendTransaction = async (fromPrivateKey: string, to: string, amount: string) => {
+    try {
+        // Crear una instancia de Wallet con la clave privada de la dirección de origen
+        const fromWallet = new ethers.Wallet(fromPrivateKey, provider);
+
+        // Convertir la cantidad a Wei
+        const amountWei = web3.utils.toWei(amount.toString(), 'ether');
+
+        // Crear la transacción
+        const tx = await fromWallet.sendTransaction({
+            to,
+            value: amountWei
+        });
+
+        // Esperar a que la transacción sea minada
+        await tx.wait();
+
+        // Retornar el hash de la transacción
+        console.log(`Transaction hash: ${tx.hash}`);
+        return tx.hash;
+    } catch (error) {
+        console.error('Error al enviar la transacción:', error);
+        throw new Error('No se pudo enviar la transacción');
+    }
+};
