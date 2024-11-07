@@ -14,6 +14,8 @@ import UsersPage from "../pages/users/usersPage";
 import RolesPage from "../pages/roles/RolesPage";
 import ProfilePage from "../pages/profile/ProfilePage";
 import RegisterReferencePage from "../pages/reference/RegisterReferencePage";
+import ShopPage from "../pages/shop/ShopPage";
+import ShoppingListPage from "../pages/shoppingList/ShoppingListPage";
 
 export const router = createBrowserRouter([
     {
@@ -72,6 +74,14 @@ export const router = createBrowserRouter([
                     {
                         path: 'profile',
                         element: <ProfilePage />
+                    },
+                    {
+                        path: 'shop',
+                        element: <ShopPage />
+                    },
+                    {
+                        path: 'shoppingList',
+                        element: <ShoppingListPage />
                     },
                 ]
             }

@@ -39,6 +39,22 @@ class SideNavBar extends React.Component {
                                 <Link to="/dashboard" className="nav-link">Dashboard</Link>
                             </NavText>
                         </NavItem>
+                        <NavItem eventKey="shop">
+                            <NavIcon>
+                                <i className="fa fa-fw fa-shop" style={{ fontSize: "1.75em" }} />
+                            </NavIcon>
+                            <NavText>
+                                <Link to="shop" className="nav-link">Shop</Link>
+                            </NavText>
+                        </NavItem>
+                        <NavItem eventKey="shoppingList">
+                            <NavIcon>
+                                <i className="fa fa-fw fa-shop" style={{ fontSize: "1.75em" }} />
+                            </NavIcon>
+                            <NavText>
+                                <Link to="shoppingList" className="nav-link">Shopping List</Link>
+                            </NavText>
+                        </NavItem>
                         <NavItem eventKey="wallet">
                             <NavIcon>
                                 <i className="fa fa-fw fa-wallet" style={{ fontSize: "1.75em" }} />
@@ -92,7 +108,7 @@ class SideNavBar extends React.Component {
                                 </NavItem>
                             )
                         }
-
+                        
                     </SideNav.Nav>
                 </SideNav>
                 <div className={`main-content ${this.state.isVisible ? '' : 'collapsed'}`}>
