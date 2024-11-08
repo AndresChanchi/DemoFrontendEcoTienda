@@ -8,48 +8,48 @@ import LoadingComponent from '../../components/loading/LoadingComponent';
 const products = [
   {
     id: 1,
-    name: 'Producto 1',
-    description: 'Descripción del producto 1',
-    price: '$10.00',
-    priceGCT: 10,
+    name: 'Caminata en la montaña',
+    description: 'Caminata a la montaña más alta de la región',
+    price: '$15.00',
+    priceGCT: 15,
     image: 'https://via.placeholder.com/150'
   },
   {
     id: 2,
-    name: 'Producto 2',
-    description: 'Descripción del producto 2',
-    price: '$20.00',
-    priceGCT: 20,
+    name: 'Descuento en el restaurante',
+    description: 'Descuento en el restaurante de comida rápida',
+    price: '$28.00',
+    priceGCT: 28,
     image: 'https://via.placeholder.com/150'
   },
   {
     id: 3,
-    name: 'Producto 3',
-    description: 'Descripción del producto 3',
+    name: 'Entrada al cine',
+    description: 'descuento de 50% en el cine',
     price: '$30.00',
     priceGCT: 30,
     image: 'https://via.placeholder.com/150'
   },
   {
     id: 4,
-    name: 'Producto 4',
-    description: 'Descripción del producto 4',
-    price: '$20.00',
-    priceGCT: 20,
+    name: 'Palomitas de maíz',
+    description: 'Descuento en palomitas de maíz 40%',
+    price: '$24.00',
+    priceGCT: 24,
     image: 'https://via.placeholder.com/150'
   },
   {
     id: 5,
-    name: 'Producto 5',
-    description: 'Descripción del producto 5',
+    name: 'Canoping',
+    description: 'Canoping en la selva',
     price: '$50.00',
     priceGCT: 50,
     image: 'https://via.placeholder.com/150'
   },
   {
     id: 6,
-    name: 'Producto 6',
-    description: 'Descripción del producto 6',
+    name: 'Canotage',
+    description: 'Canotage en el río',
     price: '$30.00',
     priceGCT: 30,
     image: 'https://via.placeholder.com/150'

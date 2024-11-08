@@ -1,0 +1,25 @@
+.shopping-list-page {
+    background-color: #343a40;
+    color: white;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.shopping-list-page .card {
+    background-color: #454d55;
+    border: none;
+}
+
+.shopping-list-page .card .card-body {
+    background-color: #343a40;
+}
+
+.shopping-list-page .card .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.shopping-list-page .card .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}

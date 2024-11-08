@@ -83,6 +83,7 @@ export const getETHBalance = async (address: string) => {
 
 export const sendTransaction = async (fromPrivateKey: string, to: string, amount: string) => {
     try {
+
         // Crear una instancia de Wallet con la clave privada de la dirección de origen
         const fromWallet = new ethers.Wallet(fromPrivateKey, provider);
 
@@ -109,9 +110,12 @@ export const sendTransaction = async (fromPrivateKey: string, to: string, amount
 
 export const exchangeGCT = async (address: string, amount: number, description: string) => {
     try {
-        // intercambiar los GCT por productos de la tienda
+        // Convertir la cantidad a Wei
+        const amountWei = web3.utils.toWei(amount.toString(), 'ether');
+
+        console.log('WEI::::::::::', amountWei);
         console.log('paso por el servicio', address);
-        const tx = await ecoStay.exchangeGCT(address, amount, description);
+        const tx = await ecoStay.exchangeGCT(address, amountWei, description);
         await tx.wait();
         console.log(`Compra realizada, hash transaction: ${tx.hash}`);
         return tx.hash;
@@ -125,7 +129,6 @@ export const getExchangeByUser = async (address: string) => {
     try {
         console.log('paso por el servicio', address);
         const exchange = await ecoStay.getExchangeByUser(address.toString());
-        console.log(exchange);
         return exchange;
     } catch (error) {
         console.error('Error al obtener el exchange:', error);

@@ -31,6 +31,7 @@ const WalletPage = () => {
         const user = cookies.get('user');
         console.log('BALANCE::::::::::')
         const gtc = await getGCTBalance(user.wallet.address);
+        console.log('BALANCE::::::::::GTC', gtc)
         const tokenGtc = parseInt(gtc);
         setBalance(tokenGtc / 1000000000000000000);
     };
@@ -73,7 +74,7 @@ const WalletPage = () => {
         try {
             setLoading(true);
             const fromPrivateKey = cookies.get('user'); // Asegúrate de tener la clave privada en las cookies
-            const txHash = await sendTransaction(fromPrivateKey.wallet.prvate_key, transferForm.to, transferForm.amount);
+            const txHash = await sendTransaction(fromPrivateKey.wallet.prvate_key, transferForm.to,  transferForm.amount); 
             await getBalanceEth(); // Asegúrate de esperar a que se complete la actualización del balance
             alert(`Transferencia realizada con exito. Hash de la transaccion: ${txHash}`);
             setLoading(false);
