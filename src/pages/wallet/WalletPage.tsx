@@ -5,6 +5,7 @@ import Cookies from 'universal-cookie';
 import { distributeReward } from '../../services/RewardService';
 import { getETHBalance, getGCTBalance, sendTransaction } from '../../services/EcoStayService';
 import LoadingComponent from '../../components/loading/LoadingComponent';
+import { changeCurrency } from '../../services/CurrencyService';
 
 const WalletPage = () => {
     const cookies = new Cookies();
@@ -14,11 +15,13 @@ const WalletPage = () => {
     const [loading, setLoading] = useState(false);
     const [showTransferModal, setShowTransferModal] = useState(false);
     const [transferForm, setTransferForm] = useState({ to: '', amount: '' });
+    const [currency, setCurrency] = useState(0);
 
     useEffect(() => {
         getUser();
         getTokenBalance();
         getBalanceEth();
+        getCurrency();
     }, []); // Asegúrate de que el array de dependencias esté vacío para que solo se ejecute una vez
 
     const getUser = async () => {
@@ -41,6 +44,13 @@ const WalletPage = () => {
         const balance = await getETHBalance(user.wallet.address);
         setBalanceEth(balance);
     };
+
+
+    const getCurrency = async () => {
+        const currency = await changeCurrency();
+        console.log(currency?.COP);
+        setCurrency(currency);
+    }
 
     const handleReward = async () => {
         try {
@@ -105,6 +115,12 @@ const WalletPage = () => {
                             </Card.Text>
                             <Card.Text>
                                 <strong>ETH :</strong> {balanceEth ? parseFloat(balanceEth).toFixed(2) : '0.00'} 
+                            </Card.Text>
+                            <Card.Text>
+                                <strong>COP :</strong> { parseFloat(currency?.COP * balanceEth).toFixed(2)} 
+                            </Card.Text>
+                            <Card.Text>
+                                <strong>USD :</strong> { parseFloat(currency?.USD * balanceEth).toFixed(2)} 
                             </Card.Text>
                             <Button variant='primary' className='mt-3' onClick={handleShowTransferModal}>Transfer ETH</Button>
                         </Card.Body>
