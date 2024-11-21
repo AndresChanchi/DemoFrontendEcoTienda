@@ -1,0 +1,40 @@
+import { Product } from '../types';
+
+export const mockProducts: Product[] = [
+  {
+    id: '1',
+    title: 'Vintage Denim Jacket',
+    description: 'Classic vintage denim jacket in excellent condition. Features traditional styling with button front closure and chest pockets.',
+    price: 45.99,
+    size: 'M',
+    category: 'outerwear',
+    image: 'https://images.unsplash.com/photo-1551537482-f2075a1d41f2?w=800',
+    rewardPoints: 46,
+    condition: 'Excellent',
+    createdAt: '2024-03-15',
+  },
+  {
+    id: '2',
+    title: 'Floral Summer Dress',
+    description: 'Beautiful floral print dress perfect for summer. Light and airy fabric with a flattering cut.',
+    price: 29.99,
+    size: 'S',
+    category: 'dresses',
+    image: 'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=800',
+    rewardPoints: 30,
+    condition: 'Like New',
+    createdAt: '2024-03-14',
+  },
+  {
+    id: '3',
+    title: 'Leather Crossbody Bag',
+    description: 'Genuine leather crossbody bag in a timeless design. Perfect for everyday use.',
+    price: 34.99,
+    size: 'One Size',
+    category: 'accessories',
+    image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800',
+    rewardPoints: 35,
+    condition: 'Good',
+    createdAt: '2024-03-13',
+  },
+];
