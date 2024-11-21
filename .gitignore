@@ -1,0 +1,27 @@
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Node modules
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+
+# Editor directories and files
+.vscode/
+.idea/
+.DS_Store
+
+# JetBrains/IntelliJ files
+*.suo
+*.ntvs*
+*.njsproj
+
+# Other system files
+*.sln
+*.sw?
