@@ -1,4 +1,3 @@
-```markdown
 # EcoTienda - Frontend
 
 EcoTienda es una tienda de ropa de segunda mano que promueve el consumo responsable y sostenible. Este proyecto se centra en la parte del **frontend**, proporcionando una interfaz de usuario moderna y amigable para que los clientes compren ropa de segunda mano mientras ganan puntos y recompensas mediante el uso de un sistema basado en blockchain.
