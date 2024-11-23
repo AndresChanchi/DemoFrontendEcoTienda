@@ -10,7 +10,7 @@ import LayoutPrivate from "../layouts/LayoutPrivate";
 import Airdrop from "../pages/airdrop/Airdrop";
 import WalletPage from "../pages/wallet/WalletPage";
 import NftsPages from "../pages/nfts/NftsPages";
-import UsersPage from "../pages/users/usersPage";
+import UsersPage from "../pages/users/UsersPage";
 import RolesPage from "../pages/roles/RolesPage";
 import ProfilePage from "../pages/profile/ProfilePage";
 import RegisterReferencePage from "../pages/reference/RegisterReferencePage";
